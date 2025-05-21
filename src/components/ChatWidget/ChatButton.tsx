@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { CircuitBoard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ChatButtonProps {
@@ -24,16 +23,9 @@ const ChatButton = ({ onClick, isOpen }: ChatButtonProps) => {
   
   return (
     <div className="fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center">
-      <div className="bg-white rounded-full p-4 shadow-lg mb-3 flex items-center justify-between w-64">
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-800">MEXI AI</span>
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-        </div>
-        <button className="w-6 h-6 text-gray-400 flex items-center justify-center">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 3h6v6M14 10l6.1-6.1M9 21H3v-6M10 14l-6.1 6.1"/>
-          </svg>
-        </button>
+      <div className="mb-3 text-center">
+        <span className="font-medium text-gray-800">MEXI AI</span>
+        <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mt-1"></div>
       </div>
       
       <button
