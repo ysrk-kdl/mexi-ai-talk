@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ChatButton from './ChatButton';
@@ -132,8 +133,8 @@ const ChatWidget = () => {
         className={cn(
           "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 rounded-lg shadow-xl transition-all duration-300",
           "flex flex-col border border-blue-500",
-          "bg-white", // Changed from dark background to white
-          isOpen ? "w-[80%] h-[600px] max-h-[80vh] opacity-100" : "h-0 opacity-0 invisible"
+          "bg-white", 
+          isOpen ? "w-[80%] h-[660px] max-h-[88vh] opacity-100" : "h-0 opacity-0 invisible"
         )}
       >
         {/* Header */}
