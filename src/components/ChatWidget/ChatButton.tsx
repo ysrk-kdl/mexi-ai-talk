@@ -13,8 +13,9 @@ const ChatButton = ({ onClick, isOpen }: ChatButtonProps) => {
     <button
       onClick={onClick}
       className={cn(
-        "fixed bottom-6 right-6 z-50 flex items-center justify-center p-4 rounded-full shadow-lg transition-all duration-300",
+        "fixed left-1/2 bottom-6 transform -translate-x-1/2 z-50 flex items-center justify-center p-4 rounded-full shadow-lg transition-all duration-300",
         "bg-blue-600 hover:bg-blue-700 text-white",
+        "border-4 border-blue-400 animate-pulse",
         isOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
       )}
       aria-label="Open chat"

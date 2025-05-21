@@ -84,7 +84,17 @@ const ChatConversation = ({ topic, sessionId, onResetSession }: ChatConversation
       
       const data = await response.json();
       
-      if (data && data.output) {
+      // Updated response handling for array format
+      if (Array.isArray(data) && data.length > 0 && data[0].output) {
+        const botMessage = {
+          id: `bot-${Date.now()}`,
+          text: data[0].output,
+          isUser: false,
+        };
+        
+        setMessages((prev) => [...prev, botMessage]);
+      } else if (data && data.output) {
+        // Fallback for previous format
         const botMessage = {
           id: `bot-${Date.now()}`,
           text: data.output,
