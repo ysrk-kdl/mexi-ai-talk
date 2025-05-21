@@ -10,8 +10,12 @@ interface MessageBubbleProps {
 const MessageBubble = ({ message, isUser }: MessageBubbleProps) => {
   // Parse message for formatting (bold text)
   const formatMessage = (text: string) => {
-    // Replace **text** or #text# with bold tags
-    const formattedText = text
+    // First identify URLs for later processing
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const textWithPlaceholders = text.replace(urlRegex, '{{URL_PLACEHOLDER_$&}}');
+    
+    // Process bold formatting
+    const processedText = textWithPlaceholders
       .split(/(\*\*.*?\*\*|#.*?#)/g)
       .map((part, index) => {
         if (part.startsWith('**') && part.endsWith('**')) {
@@ -20,10 +24,34 @@ const MessageBubble = ({ message, isUser }: MessageBubbleProps) => {
         if (part.startsWith('#') && part.endsWith('#')) {
           return <strong key={index}>{part.slice(1, -1)}</strong>;
         }
+        
+        // Replace URL placeholders back with actual clickable links
+        if (part.includes('{{URL_PLACEHOLDER_')) {
+          const segments = part.split(/(\{\{URL_PLACEHOLDER_https?:\/\/[^\}]+\}\})/g);
+          
+          return segments.map((segment, segmentIndex) => {
+            if (segment.startsWith('{{URL_PLACEHOLDER_')) {
+              const url = segment.replace('{{URL_PLACEHOLDER_', '').replace('}}', '');
+              return (
+                <a 
+                  key={`${index}-${segmentIndex}`} 
+                  href={url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline hover:text-blue-800"
+                >
+                  {url}
+                </a>
+              );
+            }
+            return segment;
+          });
+        }
+        
         return part;
       });
 
-    return formattedText;
+    return processedText;
   };
 
   return (

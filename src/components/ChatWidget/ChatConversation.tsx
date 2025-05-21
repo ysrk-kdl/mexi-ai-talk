@@ -14,24 +14,33 @@ interface ChatConversationProps {
   topic: string;
   sessionId: string;
   onResetSession: () => void;
+  messages: Message[];
+  onMessagesUpdate: (messages: Message[]) => void;
 }
 
-const ChatConversation = ({ topic, sessionId, onResetSession }: ChatConversationProps) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+const ChatConversation = ({ 
+  topic, 
+  sessionId, 
+  onResetSession,
+  messages,
+  onMessagesUpdate
+}: ChatConversationProps) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Display welcome message initially
+  // Display welcome message initially if there are no messages
   useEffect(() => {
-    setMessages([
-      {
-        id: 'welcome',
-        text: `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`,
-        isUser: false,
-      },
-    ]);
+    if (messages.length === 0) {
+      onMessagesUpdate([
+        {
+          id: 'welcome',
+          text: `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`,
+          isUser: false,
+        }
+      ]);
+    }
     
     // Focus the input field
     if (inputRef.current) {
@@ -60,7 +69,9 @@ const ChatConversation = ({ topic, sessionId, onResetSession }: ChatConversation
       isUser: true,
     };
     
-    setMessages((prev) => [...prev, newUserMessage]);
+    const updatedMessages = [...messages, newUserMessage];
+    onMessagesUpdate(updatedMessages);
+    
     setIsLoading(true);
     
     try {
@@ -92,7 +103,7 @@ const ChatConversation = ({ topic, sessionId, onResetSession }: ChatConversation
           isUser: false,
         };
         
-        setMessages((prev) => [...prev, botMessage]);
+        onMessagesUpdate([...updatedMessages, botMessage]);
       } else if (data && data.output) {
         // Fallback for previous format
         const botMessage = {
@@ -101,7 +112,7 @@ const ChatConversation = ({ topic, sessionId, onResetSession }: ChatConversation
           isUser: false,
         };
         
-        setMessages((prev) => [...prev, botMessage]);
+        onMessagesUpdate([...updatedMessages, botMessage]);
       } else {
         throw new Error('Invalid response format');
       }
@@ -114,7 +125,7 @@ const ChatConversation = ({ topic, sessionId, onResetSession }: ChatConversation
         isUser: false,
       };
       
-      setMessages((prev) => [...prev, errorMessage]);
+      onMessagesUpdate([...updatedMessages, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -126,10 +137,63 @@ const ChatConversation = ({ topic, sessionId, onResetSession }: ChatConversation
     
     if (lastUserMessage && !isLoading) {
       setInputValue(lastUserMessage.text);
-      // Remove all messages after the last user message
-      const lastUserIndex = messages.findIndex(m => m.id === lastUserMessage.id);
-      if (lastUserIndex !== -1) {
-        setMessages(messages.slice(0, lastUserIndex));
+      // Send the last user message again without clearing the conversation
+      const payload = {
+        message: lastUserMessage.text,
+        session_id: sessionId,
+        title: topic
+      };
+      
+      setIsLoading(true);
+      
+      try {
+        const response = await fetch('https://mexiai.app.n8n.cloud/webhook/v1', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to get response');
+        }
+        
+        const data = await response.json();
+        
+        if (Array.isArray(data) && data.length > 0 && data[0].output) {
+          const botMessage = {
+            id: `bot-${Date.now()}`,
+            text: data[0].output,
+            isUser: false,
+          };
+          
+          onMessagesUpdate([...messages, botMessage]);
+        } else if (data && data.output) {
+          // Fallback for previous format
+          const botMessage = {
+            id: `bot-${Date.now()}`,
+            text: data.output,
+            isUser: false,
+          };
+          
+          onMessagesUpdate([...messages, botMessage]);
+        } else {
+          throw new Error('Invalid response format');
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+        
+        const errorMessage = {
+          id: `error-${Date.now()}`,
+          text: 'Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.',
+          isUser: false,
+        };
+        
+        onMessagesUpdate([...messages, errorMessage]);
+      } finally {
+        setIsLoading(false);
+        setInputValue('');
       }
     }
   };

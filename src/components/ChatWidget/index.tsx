@@ -13,12 +13,20 @@ interface TopicSession {
   sessionId: string;
 }
 
+// Interface for message storage
+interface Message {
+  id: string;
+  text: string;
+  isUser: boolean;
+}
+
 const ChatWidget = () => {
   // States
   const [isOpen, setIsOpen] = useState(false);
   const [currentView, setCurrentView] = useState<'topics' | 'conversation'>('topics');
   const [activeTopic, setActiveTopic] = useState<TopicSession | null>(null);
   const [topicSessions, setTopicSessions] = useState<Record<string, string>>({});
+  const [topicMessages, setTopicMessages] = useState<Record<string, Message[]>>({});
   
   // Close widget on escape key
   useEffect(() => {
@@ -58,6 +66,20 @@ const ChatWidget = () => {
       }));
     }
     
+    // Initialize messages for this topic if they don't exist
+    if (!topicMessages[topicName]) {
+      setTopicMessages(prev => ({
+        ...prev,
+        [topicName]: [
+          {
+            id: 'welcome',
+            text: `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`,
+            isUser: false,
+          }
+        ]
+      }));
+    }
+    
     setActiveTopic({
       topic: topicName,
       sessionId
@@ -79,6 +101,18 @@ const ChatWidget = () => {
         [activeTopic.topic]: newSessionId
       }));
       
+      // Clear messages for this topic
+      setTopicMessages(prev => ({
+        ...prev,
+        [activeTopic.topic]: [
+          {
+            id: 'welcome',
+            text: `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`,
+            isUser: false,
+          }
+        ]
+      }));
+      
       setActiveTopic({
         ...activeTopic,
         sessionId: newSessionId
@@ -97,9 +131,9 @@ const ChatWidget = () => {
       {/* Chat widget */}
       <div 
         className={cn(
-          "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white rounded-lg shadow-xl transition-all duration-300 w-[90vw] md:w-[400px] overflow-hidden",
+          "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white rounded-lg shadow-xl transition-all duration-300",
           "flex flex-col border border-gray-200",
-          isOpen ? "h-[600px] max-h-[80vh] opacity-100" : "h-0 opacity-0 invisible"
+          isOpen ? "w-[80%] h-[600px] max-h-[80vh] opacity-100" : "h-0 opacity-0 invisible"
         )}
       >
         {/* Header */}
@@ -120,6 +154,13 @@ const ChatWidget = () => {
               topic={activeTopic.topic}
               sessionId={activeTopic.sessionId}
               onResetSession={handleResetSession}
+              messages={topicMessages[activeTopic.topic] || []}
+              onMessagesUpdate={(messages) => {
+                setTopicMessages(prev => ({
+                  ...prev,
+                  [activeTopic.topic]: messages
+                }));
+              }}
             />
           ) : null}
         </div>
