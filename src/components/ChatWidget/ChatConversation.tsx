@@ -136,8 +136,18 @@ const ChatConversation = ({
     const lastUserMessage = [...messages].reverse().find(msg => msg.isUser);
     
     if (lastUserMessage && !isLoading) {
+      // Add the user's last message to the conversation again before sending
+      const newUserMessage = {
+        id: `retry-user-${Date.now()}`,
+        text: lastUserMessage.text,
+        isUser: true,
+      };
+      
+      const updatedMessages = [...messages, newUserMessage];
+      onMessagesUpdate(updatedMessages);
+      
       setInputValue(lastUserMessage.text);
-      // Send the last user message again without clearing the conversation
+      // Send the last user message again
       const payload = {
         message: lastUserMessage.text,
         session_id: sessionId,
@@ -168,7 +178,7 @@ const ChatConversation = ({
             isUser: false,
           };
           
-          onMessagesUpdate([...messages, botMessage]);
+          onMessagesUpdate([...updatedMessages, botMessage]);
         } else if (data && data.output) {
           // Fallback for previous format
           const botMessage = {
@@ -177,7 +187,7 @@ const ChatConversation = ({
             isUser: false,
           };
           
-          onMessagesUpdate([...messages, botMessage]);
+          onMessagesUpdate([...updatedMessages, botMessage]);
         } else {
           throw new Error('Invalid response format');
         }
@@ -190,7 +200,7 @@ const ChatConversation = ({
           isUser: false,
         };
         
-        onMessagesUpdate([...messages, errorMessage]);
+        onMessagesUpdate([...updatedMessages, errorMessage]);
       } finally {
         setIsLoading(false);
         setInputValue('');
