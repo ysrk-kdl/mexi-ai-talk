@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -49,6 +50,16 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* AI Widget Theme Colors */
+    --ai-primary: 225 70% 30%;
+    --ai-primary-light: 225 70% 40%;
+    --ai-secondary: 195 80% 50%;
+    --ai-accent: 265 70% 60%;
+    --ai-background: 220 40% 13%;
+    --ai-foreground: 210 40% 98%;
+    --ai-border: 220 40% 40%;
+    --ai-highlight: 195 80% 70%;
   }
 
   .dark {
@@ -98,4 +109,32 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* AI-themed component styles */
+.ai-chat-widget {
+  @apply shadow-lg;
+  background-color: hsl(var(--ai-background));
+  color: hsl(var(--ai-foreground));
+  border: 1px solid hsl(var(--ai-border));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+.ai-button {
+  background-color: hsl(var(--ai-primary));
+  color: hsl(var(--ai-foreground));
+  transition: all 0.2s ease-in-out;
+}
+
+.ai-button:hover {
+  background-color: hsl(var(--ai-primary-light));
+}
+
+.ai-header {
+  background: linear-gradient(to right, hsl(var(--ai-primary)), hsl(var(--ai-secondary)));
+  border-bottom: 1px solid hsl(var(--ai-border));
+}
+
+.ai-highlight-text {
+  color: hsl(var(--ai-highlight));
 }

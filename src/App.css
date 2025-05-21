@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,4 +40,76 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* AI Chat Widget Styles */
+.ai-widget-shadow {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 
+              0 0 0 1px rgba(255, 255, 255, 0.05),
+              0 0 16px rgba(59, 130, 246, 0.3);
+}
+
+.ai-gradient-bg {
+  background: linear-gradient(135deg, #1a2151 0%, #293d85 100%);
+}
+
+.ai-tech-pattern {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.05) 2px, transparent 0),
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px, 25px 25px, 25px 25px;
+}
+
+/* AI-inspired animation keyframes */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+
+@keyframes scanning-light {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.ai-scanning-light {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-scanning-light::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(99, 179, 237, 0.2),
+    rgba(99, 179, 237, 0.2),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: scanning-light 3s linear infinite;
+  pointer-events: none;
+}
+
+.ai-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
