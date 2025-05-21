@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { CircleDotDashed } from 'lucide-react';
+import { CircuitBoard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ChatButtonProps {
@@ -24,36 +24,32 @@ const ChatButton = ({ onClick, isOpen }: ChatButtonProps) => {
   
   return (
     <div className="fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center">
-      <div className="text-xl font-semibold mb-3 text-white drop-shadow-lg">MEXI AI</div>
+      <div className="text-xl font-bold mb-3 text-white drop-shadow-lg flex items-center gap-2">
+        <CircuitBoard className="h-5 w-5 text-blue-400" />
+        <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">MEXI AI</span>
+      </div>
       
       <button
         onClick={onClick}
         className={cn(
-          "flex items-center justify-center p-4 rounded-full shadow-lg transition-all duration-300",
-          "bg-blue-700 hover:bg-blue-800 text-white",
-          "border-2 border-blue-500 relative",
+          "flex items-center justify-center p-4 rounded-lg shadow-lg transition-all duration-300",
+          "bg-[#1A1F2C] text-white border border-blue-500 relative",
+          "ai-circuit-pattern ai-circuit-border ai-circuit-nodes ai-data-particles",
+          "ai-widget-shadow",
           isOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
         )}
-        style={{
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(59, 130, 246, 0.5)'
-        }}
         aria-label="Open chat"
       >
-        {/* AI-inspired animation overlay */}
-        <div 
-          className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
-          style={{
-            background: `radial-gradient(circle at ${50 + Math.sin(animationState / 15) * 30}% ${50 + Math.cos(animationState / 15) * 30}%, rgba(99, 102, 241, 0.7) 0%, rgba(99, 102, 241, 0) 70%)`
-          }}
-        />
+        {/* Technical node elements */}
+        <div className="absolute top-0 right-0 w-3 h-3 bg-blue-400 rounded-full opacity-70"></div>
+        <div className="absolute bottom-0 left-0 w-3 h-3 bg-blue-400 rounded-full opacity-70"></div>
         
         {/* Icon with pulse effect */}
-        <div className="relative mr-2">
-          <CircleDotDashed className="w-6 h-6" />
-          <div className="absolute inset-0 rounded-full animate-pulse opacity-70 bg-blue-300 z-[-1]"></div>
+        <div className="relative mr-2 ai-pulse-node">
+          <CircuitBoard className="w-6 h-6 text-blue-400" />
         </div>
         
-        <span className="font-medium">Mesaj yazın...</span>
+        <span className="font-medium text-blue-100">Mesaj yazın...</span>
       </button>
     </div>
   );

@@ -44,72 +44,192 @@
 
 /* AI Chat Widget Styles */
 .ai-widget-shadow {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 
-              0 0 0 1px rgba(255, 255, 255, 0.05),
-              0 0 16px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+              0 0 0 1px rgba(59, 130, 246, 0.5),
+              0 0 16px rgba(33, 150, 243, 0.4);
 }
 
 .ai-gradient-bg {
-  background: linear-gradient(135deg, #1a2151 0%, #293d85 100%);
-}
-
-.ai-tech-pattern {
-  background-image: 
-    radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.05) 2px, transparent 0),
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 50px 50px, 25px 25px, 25px 25px;
-}
-
-/* AI-inspired animation keyframes */
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(0.8);
-    opacity: 0.5;
-  }
-}
-
-@keyframes scanning-light {
-  0% {
-    background-position: -100% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.ai-scanning-light {
+  background: #1A1F2C;
   position: relative;
   overflow: hidden;
 }
 
-.ai-scanning-light::before {
+/* Circuit board pattern */
+.ai-circuit-pattern {
+  position: relative;
+  background-image: 
+    linear-gradient(to right, rgba(33, 150, 243, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(33, 150, 243, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.ai-circuit-pattern::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(99, 179, 237, 0.2),
-    rgba(99, 179, 237, 0.2),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: scanning-light 3s linear infinite;
+  background-image: 
+    radial-gradient(circle at 10px 10px, rgba(33, 150, 243, 0.2) 2px, transparent 0),
+    radial-gradient(circle at 30px 30px, rgba(33, 150, 243, 0.15) 3px, transparent 0);
+  background-size: 40px 40px;
   pointer-events: none;
 }
 
-.ai-pulse-ring {
-  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+/* Circuit border effect */
+.ai-circuit-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-circuit-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(33, 150, 243, 0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ai-circuit-border::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background-image: 
+    linear-gradient(to right, transparent 40%, rgba(33, 150, 243, 0.8) 50%, transparent 60%),
+    linear-gradient(to bottom, transparent 40%, rgba(33, 150, 243, 0.8) 50%, transparent 60%);
+  background-size: 200% 200%, 200% 200%;
+  background-position: 100% 100%, 100% 100%;
+  animation: circuit-flow 6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* Corner nodes */
+.ai-circuit-nodes::before {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #33C3F0;
+  top: 4px;
+  left: 4px;
+  box-shadow: 
+    calc(100% - 8px) 0 0 #33C3F0,
+    0 calc(100% - 8px) 0 #33C3F0,
+    calc(100% - 8px) calc(100% - 8px) 0 #33C3F0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Electrical current flow animation */
+@keyframes circuit-flow {
+  0% {
+    background-position: 200% 200%, 200% 0%;
+  }
+  25% {
+    background-position: 0% 200%, 200% 200%;
+  }
+  50% {
+    background-position: 0% 0%, 0% 200%;
+  }
+  75% {
+    background-position: 200% 0%, 0% 0%;
+  }
+  100% {
+    background-position: 200% 200%, 200% 0%;
+  }
+}
+
+/* Data particles animation */
+@keyframes data-particles {
+  0% {
+    background-position: -100px 0;
+    opacity: 0.7;
+  }
+  100% {
+    background-position: 100px 0;
+    opacity: 0.3;
+  }
+}
+
+.ai-data-particles {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-data-particles::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(33, 150, 243, 0.3) 1px, transparent 2px),
+    radial-gradient(circle at 20% 40%, rgba(33, 150, 243, 0.2) 1px, transparent 2px),
+    radial-gradient(circle at 30% 10%, rgba(33, 150, 243, 0.3) 1px, transparent 2px),
+    radial-gradient(circle at 40% 30%, rgba(33, 150, 243, 0.2) 1px, transparent 2px),
+    radial-gradient(circle at 50% 20%, rgba(33, 150, 243, 0.3) 1px, transparent 2px),
+    radial-gradient(circle at 60% 40%, rgba(33, 150, 243, 0.2) 1px, transparent 2px),
+    radial-gradient(circle at 70% 10%, rgba(33, 150, 243, 0.3) 1px, transparent 2px),
+    radial-gradient(circle at 80% 30%, rgba(33, 150, 243, 0.2) 1px, transparent 2px);
+  background-size: 100% 100%;
+  animation: data-particles 8s linear infinite;
+  pointer-events: none;
+}
+
+/* Circuit node pulse animation */
+@keyframes node-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(51, 195, 240, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(51, 195, 240, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(51, 195, 240, 0);
+  }
+}
+
+.ai-pulse-node {
+  position: relative;
+}
+
+.ai-pulse-node::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #33C3F0;
+  top: 50%;
+  left: -4px;
+  transform: translateY(-50%);
+  animation: node-pulse 2s infinite;
+  z-index: 2;
+}
+
+.ai-pulse-node::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #33C3F0;
+  top: 50%;
+  right: -4px;
+  transform: translateY(-50%);
+  animation: node-pulse 2s infinite 1s;
+  z-index: 2;
 }

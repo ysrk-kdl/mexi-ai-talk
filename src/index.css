@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -51,15 +50,15 @@
 
     --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* AI Widget Theme Colors */
-    --ai-primary: 225 70% 30%;
-    --ai-primary-light: 225 70% 40%;
-    --ai-secondary: 195 80% 50%;
-    --ai-accent: 265 70% 60%;
-    --ai-background: 220 40% 13%;
-    --ai-foreground: 210 40% 98%;
-    --ai-border: 220 40% 40%;
-    --ai-highlight: 195 80% 70%;
+    /* AI Widget Theme Colors - Updated for circuit/electrical design */
+    --ai-primary: 210 100% 50%;       /* Electric blue */
+    --ai-primary-light: 195 100% 50%; /* Cyan */
+    --ai-secondary: 225 70% 40%;      /* Deep blue */
+    --ai-accent: 190 100% 50%;        /* Bright cyan */
+    --ai-background: 220 25% 15%;     /* Dark blue/charcoal */
+    --ai-foreground: 210 40% 98%;     /* Almost white */
+    --ai-border: 210 100% 50%;        /* Electric blue border */
+    --ai-highlight: 190 100% 70%;     /* Bright cyan highlight */
   }
 
   .dark {
@@ -111,13 +110,13 @@
   }
 }
 
-/* AI-themed component styles */
+/* AI-themed component styles - Updated for circuit/electrical design */
 .ai-chat-widget {
   @apply shadow-lg;
   background-color: hsl(var(--ai-background));
   color: hsl(var(--ai-foreground));
   border: 1px solid hsl(var(--ai-border));
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.5);
 }
 
 .ai-button {
@@ -133,8 +132,58 @@
 .ai-header {
   background: linear-gradient(to right, hsl(var(--ai-primary)), hsl(var(--ai-secondary)));
   border-bottom: 1px solid hsl(var(--ai-border));
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(to right, transparent 40%, rgba(33, 150, 243, 0.3) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: circuit-flow 4s linear infinite;
+  pointer-events: none;
 }
 
 .ai-highlight-text {
   color: hsl(var(--ai-highlight));
+}
+
+/* Circuit element styling for AI components */
+.ai-circuit-element {
+  position: relative;
+}
+
+.ai-circuit-element::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, hsl(var(--ai-primary)), transparent);
+  bottom: -1px;
+  left: 0;
+  animation: pulse-line 3s infinite;
+}
+
+@keyframes pulse-line {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Tech font for AI components */
+.ai-tech-font {
+  font-family: 'Consolas', 'Monaco', monospace;
+  letter-spacing: 0.5px;
 }

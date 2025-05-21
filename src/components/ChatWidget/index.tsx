@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ChatButton from './ChatButton';
@@ -131,8 +130,10 @@ const ChatWidget = () => {
       {/* Chat widget */}
       <div 
         className={cn(
-          "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white rounded-lg shadow-xl transition-all duration-300",
-          "flex flex-col border border-gray-200",
+          "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 rounded-lg shadow-xl transition-all duration-300",
+          "flex flex-col border border-blue-500",
+          "ai-circuit-pattern ai-circuit-border ai-circuit-nodes",
+          "ai-chat-widget ai-widget-shadow",
           isOpen ? "w-[80%] h-[600px] max-h-[80vh] opacity-100" : "h-0 opacity-0 invisible"
         )}
       >
@@ -146,7 +147,13 @@ const ChatWidget = () => {
         />
         
         {/* Content */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden relative">
+          {/* Circuit design elements */}
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-blue-400 opacity-70"></div>
+          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-blue-400 opacity-70"></div>
+          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-blue-400 opacity-70"></div>
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-blue-400 opacity-70"></div>
+          
           {currentView === 'topics' ? (
             <TopicSelection onSelectTopic={handleSelectTopic} />
           ) : currentView === 'conversation' && activeTopic ? (
