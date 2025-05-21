@@ -23,9 +23,11 @@ const ChatButton = ({ onClick, isOpen }: ChatButtonProps) => {
   
   return (
     <div className="fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center">
-      <div className="mb-3 text-center">
-        <span className="font-medium text-gray-800">MEXI AI</span>
-        <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mt-1"></div>
+      <div className="mb-3 bg-white px-4 py-2 rounded-lg shadow-md">
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-gray-800">MEXI AI</span>
+          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+        </div>
       </div>
       
       <button
