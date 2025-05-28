@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ChatButton from './ChatButton';
@@ -42,6 +41,28 @@ const ChatWidget = () => {
     };
   }, [isOpen]);
   
+  // Get welcome message based on topic
+  const getWelcomeMessage = (topicName: string) => {
+    if (topicName === "Firma Değerleme & Bilanço Analizi") {
+      return `Merhaba,
+
+Bu platform üzerinden Borsa İstanbul'da işlem gören hisse senetlerine ait:
+
+Finansal tabloları inceleyebilir,
+
+Adil değer hesaplamalarına ulaşabilir,
+
+Dilerseniz bilanço verileri üzerinden temel analiz yorumlarını da alabilirsiniz.
+
+Herhangi bir hisse senedinin sembolünü (örneğin: TTRAK, EREGL) yazarak ilgili analizlere ulaşabilirsiniz.
+
+Uyarı: Burada sunulan bilgiler yatırım tavsiyesi değildir. Analizler genel bilgilendirme amaçlıdır. Lütfen verileri resmî ve lisanslı kaynaklardan (örn. KAP, Finnet, Matriks, TEFAS) teyit ediniz.`;
+    }
+    
+    // Default welcome message for other topics
+    return `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`;
+  };
+  
   // Toggle chat widget
   const toggleWidget = () => {
     setIsOpen(!isOpen);
@@ -73,7 +94,7 @@ const ChatWidget = () => {
         [topicName]: [
           {
             id: 'welcome',
-            text: `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`,
+            text: getWelcomeMessage(topicName),
             isUser: false,
           }
         ]
@@ -107,7 +128,7 @@ const ChatWidget = () => {
         [activeTopic.topic]: [
           {
             id: 'welcome',
-            text: `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`,
+            text: getWelcomeMessage(activeTopic.topic),
             isUser: false,
           }
         ]

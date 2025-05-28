@@ -30,13 +30,35 @@ const ChatConversation = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Get welcome message based on topic
+  const getWelcomeMessage = (topicName: string) => {
+    if (topicName === "Firma Değerleme & Bilanço Analizi") {
+      return `Merhaba,
+
+Bu platform üzerinden Borsa İstanbul'da işlem gören hisse senetlerine ait:
+
+Finansal tabloları inceleyebilir,
+
+Adil değer hesaplamalarına ulaşabilir,
+
+Dilerseniz bilanço verileri üzerinden temel analiz yorumlarını da alabilirsiniz.
+
+Herhangi bir hisse senedinin sembolünü (örneğin: TTRAK, EREGL) yazarak ilgili analizlere ulaşabilirsiniz.
+
+Uyarı: Burada sunulan bilgiler yatırım tavsiyesi değildir. Analizler genel bilgilendirme amaçlıdır. Lütfen verileri resmî ve lisanslı kaynaklardan (örn. KAP, Finnet, Matriks, TEFAS) teyit ediniz.`;
+    }
+    
+    // Default welcome message for other topics
+    return `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`;
+  };
+
   // Display welcome message initially if there are no messages
   useEffect(() => {
     if (messages.length === 0) {
       onMessagesUpdate([
         {
           id: 'welcome',
-          text: `Yatırım ve finans dünyasında size rehberlik etmek için buradayım. Başlamak için bir soru sorun:`,
+          text: getWelcomeMessage(topic),
           isUser: false,
         }
       ]);
